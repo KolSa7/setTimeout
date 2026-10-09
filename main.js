@@ -8,7 +8,7 @@ const szinvaltas=setInterval(()=>{
 
 document.getElementById('btn').addEventListener('click',()=>{
     clearInterval(szinvaltas);
-});*/
+});
 const text=document.getElementById('text');
 const button=document.getElementById('start')
 let startTime;
@@ -37,9 +37,48 @@ button.addEventListener('click',()=>{
         button.textContent="restart";
         startBtn=true;
     }
+});*/
+const loading=document.getElementById("loading");
+const retry=document.getElementById("retry");
+let isLoading=false;
+var loadingInterval;
+var loadingTimeout;
+function loadingCycle(){
+    let text="Loading.";
+    loading.textContent=text;
+    let counter=0;
+    isLoading=true;
+    retry.textContent="Cancel";
+    loadingInterval=setInterval(()=>{
+        if(counter==2){
+            text="Loading.";
+            counter=0;
+        }
+        else{
+            text+='.';
+            counter++;
+        }
+        loading.textContent=text;
+    },1000);
+    loadingTimeout=setTimeout(() => {
+        clearInterval(loadingInterval);
+        loading.textContent="Loading failed";
+        retry.textContent="Retry";
+        isLoading=false;
+    }, 15000);
+}
+
+loadingCycle();
+
+retry.addEventListener('click',()=>{
+    if(isLoading){
+        clearInterval(loadingInterval);
+        clearTimeout(loadingTimeout);
+        loading.textContent="Cancelled";
+        isLoading=false;
+        retry.textContent="Resume";
+    }
+    else{
+        loadingCycle();
+    }
 });
-
-
-
-
-
